@@ -27,25 +27,25 @@ Docker containers on T-Pot utilize internal bridge ranges (e.g., `172.16.x.x`) w
 **Fix: Add a persistent static route to the OPNsense Gateway.**
 
 bash
-# Verify the current route
+Verify the current route
 ip route show
 
-# Add the route manually
-# Replace <LAN_NETWORK_CIDR> with your internal network (e.g., 192.168.1.0/24)
-# Replace <GATEWAY_IP> with your firewall's interface IP
+Add the route manually
+Replace <LAN_NETWORK_CIDR> with your internal network (e.g., 192.168.1.0/24)
+Replace <GATEWAY_IP> with your firewall's interface IP
 sudo ip route add <LAN_NETWORK_CIDR> via <GATEWAY_IP> dev ens18
 
 ## 3. Wazuh Agent Configuration (The "Spy")
 ### A. Installation on T-Pot
 
-# Import the GPG Key
+Import the GPG Key
 curl -s [https://packages.wazuh.com/key/GPG-KEY-WAZUH](https://packages.wazuh.com/key/GPG-KEY-WAZUH) | gpg --no-default-keyring --keyring gnupg-ring:/usr/share/keyrings/wazuh.gpg --import && chmod 644 /usr/share/keyrings/wazuh.gpg
 
-# Add Repo
+Add Repo
 echo "deb [signed-by=/usr/share/keyrings/wazuh.gpg] [https://packages.wazuh.com/4.x/apt/](https://packages.wazuh.com/4.x/apt/) stable main" | sudo tee -a /etc/apt/sources.list.d/wazuh.list
 
-# Install Agent pointing to Manager
-# Replace <WAZUH_MANAGER_IP> with the actual IP address
+Install Agent pointing to Manager
+Replace <WAZUH_MANAGER_IP> with the actual IP address
 sudo apt-get update
 sudo WAZUH_MANAGER="<WAZUH_MANAGER_IP>" apt-get install wazuh-agent
 
