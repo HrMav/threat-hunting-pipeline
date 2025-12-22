@@ -52,7 +52,7 @@ Unlike a standard install, this environment isolates "live" malware in a secure 
 **Solution:** Implemented **Access Control Lists (ACLs)** to grant granular read-access to the agent without elevating privileges to root.
 
 bash
-sudo setfacl -R -m u:wazuh:rx /home/cipher/tpotce/data
+sudo setfacl -R -m u:wazuh:rx /home/*****/tpotce/data
 
 ### Challenge 2: Double-NAT & Docker Routing
 **Issue:** T-Pot's internal Docker bridges (`172.x`) conflicted with the OPNsense routing table, causing packet loss when the agent tried to report to the SIEM.
