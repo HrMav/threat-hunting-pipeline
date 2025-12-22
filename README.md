@@ -1,2 +1,56 @@
-# threat-hunting-pipeline
-Enterprise-grade Detection &amp; Response pipeline using T-Pot, OPNsense, and Wazuh.
+# 🛡️ Enterprise Threat Hunting Pipeline
+### Detection, Isolation, and SIEM Analysis in a Segmented Home Lab
+
+![Status](https://img.shields.io/badge/Status-Operational-brightgreen) ![Focus](https://img.shields.io/badge/Focus-Blue%20Team%20%7C%20SOC%20Architecture-blue)
+
+## 📖 Overview
+This project demonstrates a fully functional **Security Operations Center (SOC)** architecture designed to capture, isolate, and analyze real-world cyber threats. 
+
+Unlike a standard install, this environment isolates "live" malware in a secure **DMZ** while tunneling threat intelligence into a protected **LAN** for analysis. It processes **14,000+ daily attack events**, correlating network intrusion data (NIDS) with endpoint telemetry (EDR).
+
+## 🏗️ Architecture & Network Flow
+
+**The Flow of an Attack:**
+1.  **Ingress:** Attacker targets Public IP $\rightarrow$ Hits **OPNsense Firewall**.
+2.  **Isolation:** OPNsense routes traffic to a **VLAN 66 (DMZ)**, strictly blocked from accessing the internal LAN.
+3.  **Deception:** Traffic reaches **T-Pot Honeypot**, where services like *Cowrie* (SSH) and *Suricata* (Network) capture the payload.
+4.  **Ingestion:** A custom-configured **Wazuh Agent** reads the raw JSON logs from the Honeypot's Docker volumes.
+5.  **Analysis:** Logs are tunneled through a strict firewall pinhole (Port 1515/1514) to the **Wazuh Manager** in the secure LAN.
+
+## 🛠️ Tech Stack
+
+| Component | Technology | Role |
+| :--- | :--- | :--- |
+| **Firewall / Router** | OPNsense | VLAN Segmentation, NAT, ACL Rules. |
+| **SIEM / XDR** | Wazuh | Log Correlation, FIM, Alerting. |
+| **Honeypot Platform** | T-Pot (Debian) | Threat Data Collection (Suricata, Cowrie, Nginx). |
+| **Virtualization** | Proxmox VE | Hosting Infrastructure (LXC / VMs). |
+| **Containerization** | Docker | Microservices for Honeypot sensors. |
+
+## 📸 Project Gallery
+
+### 1. The Evidence: Live Threat Ingestion
+*Wazuh SIEM dashboard visualizing live SSH brute force and Suricata network alerts tunneled from the DMZ.*
+![Wazuh Dashboard](LINK_TO_YOUR_DASHBOARD_IMAGE_HERE)
+
+### 2. The Trap: Global Attack Map
+*Real-time visualization of 14,000+ daily attacks against the Honeypot sensors.*
+![T-Pot Attack Map](LINK_TO_YOUR_ATTACK_MAP_IMAGE_HERE)
+
+### 3. The Shield: Network Segmentation
+*OPNsense firewall rules enforcing a "Default Deny" policy between the DMZ and critical internal assets.*
+![Firewall Rules](LINK_TO_YOUR_FIREWALL_RULES_IMAGE_HERE)
+
+## 🔧 Engineering Challenges & Solutions
+
+### Challenge 1: The "Blind Agent" Problem
+**Issue:** The Wazuh Agent runs as a restricted user and could not read T-Pot's Docker logs (`eve.json`), which are owned by root.
+**Solution:** Implemented **Access Control Lists (ACLs)** to grant granular read-access to the agent without elevating privileges to root.
+```bash
+sudo setfacl -R -m u:wazuh:rx /home/cipher/tpotce/data
+
+### Challenge 2: Double-NAT & Docker Routing
+**Issue:** T-Pot's internal Docker bridges (`172.x`) conflicted with the OPNsense routing table, causing packet loss when the agent tried to report to the SIEM.
+**Solution:** Configured persistent static routing on the Debian host to prioritize the OPNsense gateway for LAN traffic.
+```bash
+ip route add 192.168.1.0/24 via 192.168.66.1 dev ens18
