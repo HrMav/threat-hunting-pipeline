@@ -31,7 +31,7 @@ Unlike a standard install, this environment isolates "live" malware in a secure 
 
 ### 1. The Evidence: Live Threat Ingestion
 *Wazuh SIEM dashboard visualizing live SSH brute force and Suricata network alerts tunneled from the DMZ.*
-![Wazuh Dashboard](LINK_TO_YOUR_DASHBOARD_IMAGE_HERE)
+![Wazuh Dashboard](/home/cipher/Pictures/Screenshots/tpotwazuh.png)
 
 ### 2. The Trap: Global Attack Map
 *Real-time visualization of 14,000+ daily attacks against the Honeypot sensors.*
@@ -46,11 +46,22 @@ Unlike a standard install, this environment isolates "live" malware in a secure 
 ### Challenge 1: The "Blind Agent" Problem
 **Issue:** The Wazuh Agent runs as a restricted user and could not read T-Pot's Docker logs (`eve.json`), which are owned by root.
 **Solution:** Implemented **Access Control Lists (ACLs)** to grant granular read-access to the agent without elevating privileges to root.
-```bash
+
+bash
 sudo setfacl -R -m u:wazuh:rx /home/cipher/tpotce/data
 
 ### Challenge 2: Double-NAT & Docker Routing
 **Issue:** T-Pot's internal Docker bridges (`172.x`) conflicted with the OPNsense routing table, causing packet loss when the agent tried to report to the SIEM.
 **Solution:** Configured persistent static routing on the Debian host to prioritize the OPNsense gateway for LAN traffic.
-```bash
+bash
 ip route add 192.168.1.0/24 via 192.168.66.1 dev ens18
+
+### Challenge 3: Secure Log Tunneling
+**Issue:** How to get logs *out* of a locked-down DMZ without opening the LAN to hackers?
+**Solution:** Created a strict **Firewall Alias** (`WAZUH_SERVER`) and a "Pinhole Rule" in OPNsense allowing traffic **only** on TCP ports 1514/1515 from the Honeypot IP to the SIEM IP.
+
+## 🚀 Key Capabilities Demonstrated
+* **Network Security:** VLAN segmentation, Firewall Rule creation, NAT traversal.
+* **Log Management:** JSON log parsing, custom `ossec.conf` ingestion rules.
+* **Threat Intelligence:** Differentiating between "Internet Noise" (AppArmor false positives) and "Targeted Attacks" (SSH Brute Force).
+* **Linux Administration:** File permissions (ACLs), Service management (Systemd), Network debugging (`netcat`, `tcpdump`).
