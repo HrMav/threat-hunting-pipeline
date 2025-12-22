@@ -31,17 +31,16 @@ Unlike a standard install, this environment isolates "live" malware in a secure 
 
 ### 1. The Evidence: Live Threat Ingestion
 *Wazuh SIEM dashboard visualizing live SSH brute force and Suricata network alerts tunneled from the DMZ.*
-![Wazuh Dashboard](<img width="1864" height="950" alt="tpotwazuh" src="https://github.com/user-attachments/assets/2355555b-f3f5-4aef-9465-c4502a4ae346" />)
+![Wazuh Dashboard] <img width="1864" height="950" alt="tpotwazuh" src="https://github.com/user-attachments/assets/2355555b-f3f5-4aef-9465-c4502a4ae346" />
 
 ### 2. The Trap: Global Attack Map
 *Real-time visualization of 14,000+ daily attacks against the Honeypot sensors.*
-![T-Pot Attack Map](<img width="1864" height="950" alt="tpot" src="https://github.com/user-attachments/assets/ec409364-8da2-4dc2-992b-c4b8dc0ef840" />
-)
+![T-Pot Attack Map] <img width="1864" height="950" alt="tpot" src="https://github.com/user-attachments/assets/ec409364-8da2-4dc2-992b-c4b8dc0ef840" />
+
 
 ### 3. The Shield: Network Segmentation
 *OPNsense firewall rules enforcing a "Default Deny" policy between the DMZ and critical internal assets.*
-![Firewall Rules](<img width="1864" height="950" alt="opnsense" src="https://github.com/user-attachments/assets/0812191d-3373-419c-98bc-2aef9d4ca957" />
-)
+![Firewall Rules] <img width="1864" height="950" alt="opnsense" src="https://github.com/user-attachments/assets/0812191d-3373-419c-98bc-2aef9d4ca957" />
 
 ## 🔧 Engineering Challenges & Solutions
 
