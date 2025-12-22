@@ -55,7 +55,7 @@ sudo setfacl -R -m u:wazuh:rx /home/cipher/tpotce/data
 **Issue:** T-Pot's internal Docker bridges (`172.x`) conflicted with the OPNsense routing table, causing packet loss when the agent tried to report to the SIEM.
 **Solution:** Configured persistent static routing on the Debian host to prioritize the OPNsense gateway for LAN traffic.
 bash
-ip route add 192.168.1.0/24 via 192.168.66.1 dev ens18
+ip route add 192.168.x.x/24 via 192.168.x.x dev ens18
 
 ### Challenge 3: Secure Log Tunneling
 **Issue:** How to get logs *out* of a locked-down DMZ without opening the LAN to hackers?
