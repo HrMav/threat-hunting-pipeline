@@ -36,9 +36,10 @@ Unlike a standard install, this environment isolates "live" malware in a secure 
 ### 2. The Trap: Global Attack Map
 *Real-time visualization of 14,000+ daily attacks against the Honeypot sensors.*
 ![T-Pot Attack Map] <img width="1864" height="950" alt="tpot" src="https://github.com/user-attachments/assets/ec409364-8da2-4dc2-992b-c4b8dc0ef840" />
-![Uploading Screenshot from 2025-12-22 11-55-58.png…]()
-![Uploading Screenshot from 2025-12-22 11-56-13.png…]()
 
+<img width="1864" height="950" alt="Screenshot from 2025-12-22 11-55-58" src="https://github.com/user-attachments/assets/216fe747-a4c3-488a-bc38-03f2da9b65fc" />
+
+<img width="1864" height="950" alt="Screenshot from 2025-12-22 11-56-13" src="https://github.com/user-attachments/assets/caea3e72-50e4-4f37-86ff-652c2f689ef8" />
 
 ### 3. The Shield: Network Segmentation
 *OPNsense firewall rules enforcing a "Default Deny" policy between the DMZ and critical internal assets.*
