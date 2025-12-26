@@ -31,7 +31,7 @@ Verify the current route
 ip route show
 
 Add the route manually
-Replace <LAN_NETWORK_CIDR> with your internal network (e.g., 192.168.1.0/24)
+Replace <LAN_NETWORK_CIDR> with your internal network (e.g., 192.168.x.x/24)
 Replace <GATEWAY_IP> with your firewall's interface IP
 sudo ip route add <LAN_NETWORK_CIDR> via <GATEWAY_IP> dev ens18
 
